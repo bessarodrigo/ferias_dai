@@ -64,143 +64,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Férias de Dai</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            height: 100vh;
+            font-family: Arial, sans-serif;
             display: flex;
-            align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #1e1e2f, #3a0ca3);
+            align-items: center;
+            height: 100vh;
+            background-color: #111;
             color: #fff;
+            margin: 0;
+        }
+        .container {
             text-align: center;
         }
-
-        .container {
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
         h1 {
-            font-size: 48px;
+            font-size: 36px;
             margin-bottom: 10px;
         }
-
-        .subtitle {
-            font-size: 20px;
-            opacity: 0.8;
-            margin-bottom: 30px;
-        }
-
-        .timer {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 16px;
-            min-width: 80px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.2s;
-        }
-
-        .box:hover {
-            transform: scale(1.1);
-        }
-
-        .number {
-            font-size: 32px;
-            font-weight: 700;
-        }
-
-        .label {
-            font-size: 14px;
-            opacity: 0.7;
-        }
-
-        .message {
-            margin-top: 30px;
+        .data {
             font-size: 18px;
-            opacity: 0.9;
+            color: #aaa;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        #timer {
+            font-size: 48px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Férias de Dai ✈️</h1>
-    <div class="subtitle">Estamos te aguardando no dia 17/05 😎</div>
-
-    <div class="timer">
-        <div class="box">
-            <div class="number" id="dias">0</div>
-            <div class="label">Dias</div>
-        </div>
-        <div class="box">
-            <div class="number" id="horas">0</div>
-            <div class="label">Horas</div>
-        </div>
-        <div class="box">
-            <div class="number" id="minutos">0</div>
-            <div class="label">Min</div>
-        </div>
-        <div class="box">
-            <div class="number" id="segundos">0</div>
-            <div class="label">Seg</div>
-        </div>
+    <div class="container">
+        <h1>Férias de Dai</h1>
+        <div class="data">17 de maio de 2026</div>
+        <div id="timer">Carregando...</div>
     </div>
 
-    <div class="message" id="mensagemFinal"></div>
-</div>
+    <script>
+        const dataAlvo = new Date("2026-05-17T00:00:00").getTime();
 
-<script>
-    const dataAlvo = new Date("2026-05-17T00:00:00").getTime();
+        function atualizarTimer() {
+            const agora = new Date().getTime();
+            const diferenca = dataAlvo - agora;
 
-    function atualizarTimer() {
-        const agora = new Date().getTime();
-        const diferenca = dataAlvo - agora;
+            if (diferenca <= 0) {
+                document.getElementById("timer").innerHTML = "Chegou o grande dia!";
+                return;
+            }
 
-        if (diferenca <= 0) {
-            document.getElementById("mensagemFinal").innerHTML = "Chegou o grande dia! Bora aproveitar 😍";
-            document.querySelector(".timer").style.display = "none";
-            return;
+            const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML =
+                `${dias}d ${horas}h ${minutos}m ${segundos}s`;
         }
 
-        const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-        const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-        const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
-
-        document.getElementById("dias").innerText = dias;
-        document.getElementById("horas").innerText = horas;
-        document.getElementById("minutos").innerText = minutos;
-        document.getElementById("segundos").innerText = segundos;
-    }
-
-    setInterval(atualizarTimer, 1000);
-    atualizarTimer();
-</script>
-
+        setInterval(atualizarTimer, 1000);
+        atualizarTimer();
+    </script>
 </body>
 </html>
